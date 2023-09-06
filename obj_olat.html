@@ -1,0 +1,211 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpenIllumination</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.4.1.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="js/custom.js"></script>
+    <style>
+        body {
+            margin-top: 10px;    /* Adjust the top margin as needed */
+            margin-left: 10px;   /* Adjust the left margin as needed */
+        }
+    </style>
+</head>
+
+<body>
+
+<h2 id="obj_property">ID: %s Name: %s Material: %s</h2>
+<br>
+<button type="button" class="btn btn-primary" onclick="goBack()">Main page</button>
+<button type="button" class="btn btn-primary" onclick="goToPreviousObject()">Previous object</button>
+<button type="button" class="btn btn-primary" onclick="goToNextObject()">Next object</button>
+<label for="toggleCheckbox">Toggle Camera ID</label>
+<input type="checkbox" id="toggleCheckbox">
+<br>
+<br>
+<div class="container float-left">
+    <label for="mySlider" class="form-label">Light</label>
+    <input type="range" class="form-range" style="width: 90%" id="mySlider" min="0" max="141"
+           oninput="sliderCallback(this.value)" value="0">
+    <label for="sliderValue"></label><input type="text" style="width: 5%" id="sliderValue"
+                                            oninput="updateSlider(this.value)" value="0">
+</div>
+<br><br>
+<br>
+Mask Type
+<div id="button_mask_div">
+
+</div>
+<br><br>
+<div id="imgdiv"></div>
+</body>
+<script>
+    const objectId = new URLSearchParams(window.location.search).get('id');
+    button_mask_div = document.getElementById("button_mask_div");
+
+    if (objectId !== "20") {
+        button_names = ['obj_masked_thumbnail', 'com_masked_thumbnail', 'origin_thumbnail']
+        class_names = ['btn btn-primary', 'btn btn-primary', 'btn btn-warning']
+        innerHTMLs = ['Object mask', 'Combined mask', 'No mask']
+    } else {
+        button_names = ['obj_masked_thumbnail', 'origin_thumbnail']
+        class_names = ['btn btn-primary', 'btn btn-warning']
+        innerHTMLs = ['Object mask', 'No mask']
+    }
+    for (i = 0; i < button_names.length; i++) {
+        button = document.createElement("button");
+        button.id = button_names[i];
+        button.type = "button";
+        button.className = class_names[i];
+        button.innerHTML = innerHTMLs[i];
+        button.onclick = function () {
+            localStorage.setItem("olat_clicked_mask_button_state", this.id);
+            goToMask(this.id);
+        }
+        button_mask_div.appendChild(button);
+    }
+    // button_mask_div.appendChild(button_masked_obj);
+
+    maxN = 0
+    fetch('data_olat.json')
+        .then(response => response.json())
+        .then(data => {
+            maxN = Object.keys(data['obj_list']).length;
+            updateContent(data);
+        })
+        .catch(error => console.error(error));
+
+
+    function parse(str) {
+        var args = [].slice.call(arguments, 1),
+            i = 0;
+
+        return str.replace(/%s/g, () => args[i++]);
+    }
+
+    function updateContent(data) {
+        obj_list = data['obj_list'];
+        imgid_list = data['imgid_list'];
+        const thisdata = obj_list[objectId - 1]
+        const img_container = document.getElementById('imgdiv');
+        // const root = "https://huggingface.co/datasets/fsky097/OpenIllumination/resolve/main/OLAT"
+        const root = "files/OLAT"
+        // const root = "https://media.githubusercontent.com/media/annonymous2023neuripsdataset/annonymous2023neuripsdataset.github.io/main/files/OLAT"
+        imgid_list.forEach(imgid => {
+            const figure_div = document.createElement('div');
+            figure_div.style.display = 'inline-block'
+            figure_div.style.textAlign = 'center';
+            figure_div.style.maxWidth = '8%';
+            figure_div.style.borderBottom = '1px solid #eee';
+
+            const figure = document.createElement('figure');
+            const img = document.createElement('img');
+            img.src = `${root}/${thisdata['data_name']}/Lights/000/origin_thumbnail/${imgid}.jpg`
+            img.style.maxWidth = '100%'
+            figure.appendChild(img);
+            const caption = document.createElement('figcaption');
+            caption.id = "figcaption_" + imgid;
+            caption.innerHTML = imgid;
+            caption.style.display = 'none';
+            figure.appendChild(caption);
+
+            figure_div.appendChild(figure);
+
+            img_container.appendChild(figure_div);
+        })
+        const display_name = thisdata["display_name"];
+        const material = thisdata["material"];
+        obj_property = document.getElementById("obj_property");
+        obj_property.innerHTML = `ID: ${objectId} Name: ${display_name} Material: ${material}`;
+        var toggleCheckbox = document.getElementById("toggleCheckbox");
+        var figcaptions = document.querySelectorAll("figcaption");
+
+
+        var storedCheckboxState = localStorage.getItem("checkboxState");
+        if (storedCheckboxState) {
+            toggleCheckbox.checked = JSON.parse(storedCheckboxState);
+            toggleCameraIDs();
+        }
+
+        toggleCheckbox.addEventListener("change", function () {
+            localStorage.setItem("checkboxState", toggleCheckbox.checked);
+            toggleCameraIDs();
+        });
+
+        function toggleCameraIDs() {
+            figcaptions.forEach(caption => {
+                if (toggleCheckbox.checked) {
+                    caption.style.display = 'block';
+                } else {
+                    caption.style.display = 'none';
+                }
+            });
+        }
+
+        var clicked_mask_button = localStorage.getItem("olat_clicked_mask_button_state");
+        if (clicked_mask_button) {
+            goToMask(clicked_mask_button);
+        }
+
+        var lightIdx = localStorage.getItem("olat_lightIdx");
+        if (lightIdx) {
+            goToLight(lightIdx,"olat_lightIdx");
+        }
+
+    }
+
+    function goToNextObject() {
+        // console.log('maxN', maxN)
+        const currentIndex = parseInt(objectId);
+        if (currentIndex === maxN) {
+            return
+        }
+        const nextIndex = Math.min((currentIndex + 1), maxN); // Calculate the index of the next object
+
+        // Construct the URL with the next object's ID
+        const nextUrl = `obj_olat.html?id=${nextIndex.toString()}`;
+
+        // Navigate to the next URL
+        window.location.href = nextUrl;
+    }
+
+    function goToPreviousObject() {
+        const currentIndex = parseInt(objectId);
+        if (currentIndex === 1) {
+            return
+        }
+        const previousIndex = Math.max(1, (currentIndex - 1)); // Calculate the index of the previous object
+
+        // Construct the URL with the previous object's ID
+        const previousUrl = `obj_olat.html?id=${previousIndex.toString()}`;
+
+        // Navigate to the previous URL
+        window.location.href = previousUrl;
+    }
+
+    function sliderCallback(value) {
+        // This function will be called whenever the slider's value changes
+        // console.log("Slider value:", value);
+        // You can perform additional actions or call other functions here
+        goToLight(value.toString().padStart(3, '0'),'olat_lightIdx');
+        document.getElementById("sliderValue").value = value;
+    }
+
+    function updateSlider(value) {
+        // This function will be called whenever the text input's value changes
+        value = Math.max(0, Math.min(141, Math.floor(value))); // Clamp value between 0 and 141
+        if (isNaN(value)) {
+            value = 0; // Set value to 0 if it's not a number
+        }
+        document.getElementById("mySlider").value = value; // Update slider value
+        document.getElementById("sliderValue").value = value; // Update slider value
+        goToLight(value.toString().padStart(3, '0'),'olat_lightIdx');
+    }
+
+
+</script>
+</html>

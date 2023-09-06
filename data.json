@@ -1,0 +1,438 @@
+{
+  "obj_list": [
+    {
+      "id": 1,
+      "display_name": "car",
+      "data_name": "obj_01_car",
+      "material": "plastic"
+    },
+    {
+      "id": 2,
+      "display_name": "egg",
+      "data_name": "obj_02_egg",
+      "material": "paper"
+    },
+    {
+      "id": 3,
+      "display_name": "chicken",
+      "data_name": "obj_03_chicken",
+      "material": "plastic"
+    },
+    {
+      "id": 4,
+      "display_name": "stone",
+      "data_name": "obj_04_stone",
+      "material": "stone"
+    },
+    {
+      "id": 5,
+      "display_name": "bird",
+      "data_name": "obj_05_bird",
+      "material": "painted"
+    },
+    {
+      "id": 6,
+      "display_name": "cat",
+      "data_name": "obj_06_cat",
+      "material": "ceramic"
+    },
+    {
+      "id": 7,
+      "display_name": "dog",
+      "data_name": "obj_07_dog",
+      "material": "fabric"
+    },
+    {
+      "id": 8,
+      "display_name": "transparent_cup",
+      "data_name": "obj_08_transparent_cup",
+      "material": "clear-plastic"
+    },
+    {
+      "id": 9,
+      "display_name": "ball",
+      "data_name": "obj_09_ball",
+      "material": "paper"
+    },
+    {
+      "id": 10,
+      "display_name": "facemask",
+      "data_name": "obj_10_facemask",
+      "material": "paper,plastic"
+    },
+    {
+      "id": 11,
+      "display_name": "duck",
+      "data_name": "obj_11_duck",
+      "material": "plastic"
+    },
+    {
+      "id": 12,
+      "display_name": "bag",
+      "data_name": "obj_12_bag",
+      "material": "leather"
+    },
+    {
+      "id": 13,
+      "display_name": "ceramic_cup",
+      "data_name": "obj_13_ceramic_cup",
+      "material": "ceramic"
+    },
+    {
+      "id": 14,
+      "display_name": "red_bucket",
+      "data_name": "obj_14_red_bucket",
+      "material": "metal,plastic"
+    },
+    {
+      "id": 15,
+      "display_name": "flower",
+      "data_name": "obj_15_flower",
+      "material": "fabric,plastic"
+    },
+    {
+      "id": 16,
+      "display_name": "toy",
+      "data_name": "obj_16_toy",
+      "material": "plastic"
+    },
+    {
+      "id": 17,
+      "display_name": "box",
+      "data_name": "obj_17_wooden_box",
+      "material": "coated"
+    },
+    {
+      "id": 18,
+      "display_name": "glass_cup",
+      "data_name": "obj_18_glass_cup",
+      "material": "glass"
+    },
+    {
+      "id": 19,
+      "display_name": "squirrel",
+      "data_name": "obj_19_squirrel",
+      "material": "ceramic"
+    },
+    {
+      "id": 20,
+      "display_name": "red_pot",
+      "data_name": "obj_20_red_pot",
+      "material": "ceramic"
+    },
+    {
+      "id": 21,
+      "display_name": "cube",
+      "data_name": "obj_21_cube",
+      "material": "paper"
+    },
+    {
+      "id": 22,
+      "display_name": "toy2",
+      "data_name": "obj_22_toy2",
+      "material": "wooden"
+    },
+    {
+      "id": 23,
+      "display_name": "cylinder",
+      "data_name": "obj_23_cylinder",
+      "material": "paper"
+    },
+    {
+      "id": 24,
+      "display_name": "volleyball",
+      "data_name": "obj_24_volleyball",
+      "material": "latex"
+    },
+    {
+      "id": 25,
+      "display_name": "basketball",
+      "data_name": "obj_25_basketball",
+      "material": "latex"
+    },
+    {
+      "id": 26,
+      "display_name": "pumpkin",
+      "data_name": "obj_26_pumpkin",
+      "material": "wicker"
+    },
+    {
+      "id": 27,
+      "display_name": "pumpkin2",
+      "data_name": "obj_27_pumpkin2",
+      "material": "foam"
+    },
+    {
+      "id": 28,
+      "display_name": "metal_bucket",
+      "data_name": "obj_28_metal_bucket",
+      "material": "metal"
+    },
+    {
+      "id": 29,
+      "display_name": "fabric_toy",
+      "data_name": "obj_29_fabric_toy",
+      "material": "fabric"
+    },
+    {
+      "id": 30,
+      "display_name": "pumpkin3",
+      "data_name": "obj_30_pumpkin3",
+      "material": "foam"
+    },
+    {
+      "id": 31,
+      "display_name": "sculpture2",
+      "data_name": "obj_31_painted_toy",
+      "material": "painted"
+    },
+    {
+      "id": 32,
+      "display_name": "sculpture",
+      "data_name": "obj_32_stone2",
+      "material": "stone"
+    },
+    {
+      "id": 33,
+      "display_name": "fabric_basket",
+      "data_name": "obj_33_fabric_basket",
+      "material": "fabric"
+    },
+    {
+      "id": 34,
+      "display_name": "candle",
+      "data_name": "obj_34_candle",
+      "material": "wax"
+    },
+    {
+      "id": 35,
+      "display_name": "transparent_plastic_cup",
+      "data_name": "obj_35_transparent_plastic_cup",
+      "material": "clear-plastic"
+    },
+    {
+      "id": 36,
+      "display_name": "sponge",
+      "data_name": "obj_36_sponge",
+      "material": "sponge"
+    },
+    {
+      "id": 37,
+      "display_name": "pumpkin4_fabric",
+      "data_name": "obj_37_pumpkin4_fabric",
+      "material": "fabric"
+    },
+    {
+      "id": 38,
+      "display_name": "floral",
+      "data_name": "obj_38_floral",
+      "material": "foliage"
+    },
+    {
+      "id": 39,
+      "display_name": "potato",
+      "data_name": "obj_39_potato",
+      "material": "plastic"
+    },
+    {
+      "id": 40,
+      "display_name": "pine",
+      "data_name": "obj_40_pine",
+      "material": "plant"
+    },
+    {
+      "id": 41,
+      "display_name": "fabric_knob",
+      "data_name": "obj_41_fabric_knob",
+      "material": "fabric"
+    },
+    {
+      "id": 42,
+      "display_name": "food_banana",
+      "data_name": "obj_42_food_banana",
+      "material": "food"
+    },
+    {
+      "id": 43,
+      "display_name": "paper_ball",
+      "data_name": "obj_43_paper_ball",
+      "material": "paper"
+    },
+    {
+      "id": 44,
+      "display_name": "fabric_mushroom",
+      "data_name": "obj_44_fabric_mushroom",
+      "material": "fabric"
+    },
+    {
+      "id": 45,
+      "display_name": "metal_lizard",
+      "data_name": "obj_45_metal_lizard",
+      "material": "metal"
+    },
+    {
+      "id": 46,
+      "display_name": "fabric_dinasour",
+      "data_name": "obj_46_fabric_dinasour",
+      "material": "fabric"
+    },
+    {
+      "id": 47,
+      "display_name": "printed_pine",
+      "data_name": "obj_47_printed_pine",
+      "material": "painted"
+    },
+    {
+      "id": 48,
+      "display_name": "metal_bucket2",
+      "data_name": "obj_48_metal_bucket2",
+      "material": "metal"
+    },
+    {
+      "id": 49,
+      "display_name": "rubbery_dinasour",
+      "data_name": "obj_49_rubbery_dinasour",
+      "material": "rubbery"
+    },
+    {
+      "id": 50,
+      "display_name": "fabric_cow",
+      "data_name": "obj_50_fabric_cow",
+      "material": "fabric"
+    },
+    {
+      "id": 51,
+      "display_name": "plastic_man",
+      "data_name": "obj_51_plastic_man",
+      "material": "plastic"
+    },
+    {
+      "id": 52,
+      "display_name": "hair",
+      "data_name": "obj_52_hair",
+      "material": "hair"
+    },
+    {
+      "id": 53,
+      "display_name": "rubbery_head",
+      "data_name": "obj_53_rubbery_head",
+      "material": "rubbery"
+    },
+    {
+      "id": 54,
+      "display_name": "leather_bag",
+      "data_name": "obj_54_leather_bag",
+      "material": "leather"
+    },
+    {
+      "id": 55,
+      "display_name": "pumpkin5",
+      "data_name": "obj_55-pumpkin5",
+      "material": "stone"
+    },
+    {
+      "id": 56,
+      "display_name": "pumpkin6",
+      "data_name": "obj_56-pumpkin6",
+      "material": "fabric"
+    },
+    {
+      "id": 57,
+      "display_name": "pumpkin7",
+      "data_name": "obj_57-pumpkin7",
+      "material": "cloth"
+    },
+    {
+      "id": 58,
+      "display_name": "pumpkin8",
+      "data_name": "obj_58-pumpkin8",
+      "material": "Wicker"
+    },
+    {
+      "id": 59,
+      "display_name": "lineball",
+      "data_name": "obj_59-lineball",
+      "material": "nylon"
+    },
+    {
+      "id": 60,
+      "display_name": "fabric-green-hedgehog",
+      "data_name": "obj_60-fabric-green-hedgehog",
+      "material": "fabric"
+    },
+    {
+      "id": 61,
+      "display_name": "fabric-dolphin",
+      "data_name": "obj_61-fabric-dolphin",
+      "material": "fabric"
+    },
+    {
+      "id": 62,
+      "display_name": "fabric-birthday-cake",
+      "data_name": "obj_62-fabric-birthday-cake",
+      "material": "fabric"
+    },
+    {
+      "id": 63,
+      "display_name": "fabric-friends-cup",
+      "data_name": "obj_63-fabric-friends-cup",
+      "material": "fabric"
+    },
+    {
+      "id": 64,
+      "display_name": "greenhead",
+      "data_name": "obj_64_greenhead",
+      "material": "paper"
+    }
+  ],
+  "imgid_list": [
+    "CA2",
+    "CA4",
+    "CA6",
+    "CA8",
+    "CB2",
+    "CB4",
+    "CB5",
+    "CB7",
+    "CB8",
+    "CC4",
+    "CC5",
+    "CC7",
+    "CD1",
+    "CD3",
+    "CD7",
+    "CD8",
+    "CE2",
+    "CE3",
+    "CE4",
+    "CE8",
+    "CF1",
+    "CF3",
+    "CF5",
+    "CF8",
+    "NA1",
+    "NA3",
+    "NA5",
+    "NA7",
+    "NB1",
+    "NB3",
+    "NB6",
+    "NC1",
+    "NC2",
+    "NC3",
+    "NC6",
+    "NC8",
+    "ND2",
+    "ND4",
+    "ND5",
+    "ND6",
+    "NE1",
+    "NE5",
+    "NE6",
+    "NE7",
+    "NF2",
+    "NF4",
+    "NF6",
+    "NF7"
+  ]
+}

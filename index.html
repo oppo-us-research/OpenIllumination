@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpenIllumination</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.4.1.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            cursor: pointer;
+            position: relative;
+        }
+
+        th::after {
+            content: "";
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .arrow-up::after {
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 4px solid black;
+        }
+
+        .arrow-down::after {
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid black;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        caption {
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        #popup {
+            position: absolute;
+            display: none;
+            background-color: white;
+            padding: 2px;
+            border: 1px solid gray;
+        }
+
+        #preview-image {
+            max-width: 200px;
+        }
+    </style>
+    <script>
+        var currentSortCol = -1;
+        var sortDirection = 'asc';
+
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("myTable");
+            switching = true;
+            dir = sortDirection;
+
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+
+                    if (dir === "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir === "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount === 0 && dir === "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+
+            updateSortIndicator(n, dir);
+            currentSortCol = n;
+            sortDirection = dir;
+
+        }
+
+        function updateSortIndicator(n, dir) {
+            var headers = document.getElementsByTagName("th");
+            for (var i = 0; i < headers.length; i++) {
+                headers[i].classList.remove("arrow-up", "arrow-down");
+            }
+            headers[n].classList.add(dir === 'asc' ? "arrow-up" : "arrow-down");
+        }
+    </script>
+</head>
+<body>
+
+<!-- cover -->
+<section>
+    <div class="jumbotron text-center mt-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2><b>OpenIllumination</b>: A Multi-Illumination Dataset for <br> Inverse Rendering Evaluation on
+                        Real Objects</h2>
+                    <hr>
+                    <h6>
+                        <a href="https://www.liuisabella.com/" target="_blank">Isabella Liu</a><sup>1*</sup>,
+                        <a href="https://ootts.github.io/" target="_blank">Linghao Chen</a><sup>1,2*</sup>,
+                        <a target="_blank">Ziyang Fu</a><sup>1</sup>,
+                        <a target="_blank">Liwen Wu</a><sup>1</sup>,
+                        <a href="https://haian-jin.github.io" target="_blank">Haian Jin</a><sup>2</sup>,
+                        <a href="https://sites.google.com/site/lizhong19900216" target="_blank">Zhong Li</a><sup>3</sup>,
+                        <br>
+                        <a target="_blank">Chin Ming Ryan Wong</a><sup>3</sup>,
+                        <a target="_blank">Yi Xu</a><sup>3</sup>,
+                        <a href="https://cseweb.ucsd.edu/~ravir/" target="_blank">Ravi Ramamoorthi</a><sup>1</sup>,
+                        <a href="https://cseweb.ucsd.edu/~zex014" target="_blank">Zexiang Xu</a><sup>4</sup>,
+                        <a href="http://ai.ucsd.edu/~haosu/" target="_blank">Hao Su</a><sup>1</sup>
+                    </h6>
+                    <p>
+                        <sup>*</sup>Equal contribution
+                        <br>
+                        <sup>1</sup>UC San Diego,
+                        <!--                        <br>-->
+                        <sup>2</sup>Zhejiang University,
+                        <!--                        <br>-->
+                        <sup>3</sup>InnoPeak Technology,
+                        <!--                        <br>-->
+                        <sup>4</sup>Adobe Research
+                        <br>
+                    </p>
+
+
+                    <div class="row justify-content-center">
+                        <div class="column">
+                            <p class="mb-5"><a class="btn btn-large btn-light" href="files/openillumination.pdf"
+                                               role="button"
+                                               target="_blank">
+                                <i class="fa fa-file"></i> Paper</a></p>
+                        </div>
+                        <div class="column">
+                            <p class="mb-5"><a class="btn btn-large btn-light" href="files/supp.pdf"
+                                               role="button"
+                                               target="_blank">
+                                <i class="fa fa-file"></i> Supplementary</a></p>
+                        </div>
+                        <div class="column">
+                            <p class="mb-5"><a class="btn btn-large btn-light"
+                                               href="https://huggingface.co/datasets/OpenIllumination/OpenIllumination"
+                                               role="button"
+                                               target="_blank">
+                                <i class="fa fa-database"></i> Data</a></p>
+                        </div>
+                        <div class="column">
+                            <p class="mb-5"><a class="btn btn-large btn-light"
+                                               href="https://github.com/oppo-us-research/OpenIlluminationCapture"
+                                               role="button"
+                                               target="_blank">
+                                <i class="fa fa-github-alt"></i> Code</a></p>
+                        </div>
+<!--                        <div class="column">-->
+<!--                            <p class="mb-5"><a class="btn btn-large btn-light"-->
+<!--                                               href="leaderboard.html"-->
+<!--                                               role="button"-->
+<!--                                               target="_blank">-->
+<!--                                <i class="fa fa-table"></i> Leaderboard</a></p>-->
+<!--                        </div>-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h3>Abstract</h3>
+                <hr style="margin-top:0px">
+                <img src="images/teaser_v5.png" width="90%">
+                <br><br>
+                <p class="text-justify"> We introduce OpenIllumination, a real-world dataset containing over 108K images of 64 objects with diverse materials, captured under 72 camera views and a large number of different illuminations. For each image in the dataset, we provide accurate camera parameters, illumination ground truth, and foreground segmentation masks. Our dataset enables the quantitative evaluation of most inverse rendering and material decomposition methods for real objects. We examine several state-of-the-art inverse rendering methods on our dataset and compare their performances. </p>
+            </div>
+        </div>
+    </div>
+</section>
+<br>
+<section>
+    <div class="container">
+        <div class="col-12 text-center">
+            <h3>Dataset preview</h3>
+            <hr style="margin-top:0px">
+            <h4>Lighting pattern (13 illuminations)</h4>
+
+            <table id="myTable" class="table table-striped">
+                <tr>
+                    <!--                    <th onclick="sortTable(0)">ID</th>-->
+                    <!--                    <th onclick="sortTable(1)">Name</th>-->
+                    <!--                    <th onclick="sortTable(2)">Material</th>-->
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Material</th>
+                </tr>
+            </table>
+
+            <h4>OLAT</h4>
+
+            <table id="myTable1" class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Material</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="popup">
+        <img id="preview-image" src="" alt="Preview Image">
+    </div>
+</section>
+
+<br>
+
+
+<br>
+
+<!-- citing -->
+<!--<div class="container">-->
+<!--    <div class="row ">-->
+<!--        <div class="col-12">-->
+<!--            <h3>Citation</h3>-->
+<!--            <hr style="margin-top:0px">-->
+<!--            <pre style="background-color: #e9eeef;padding: 1.25em 1.5em">-->
+<!--<code>@inproceedings{todo,-->
+<!--  title={TODO EasyHeC: Accurate and Automatic Hand-eye Calibration via Differentiable Rendering and Space Exploration},-->
+<!--  author={TODO Chen, Linghao and Qin, Yuzhe and Zhou, Xiaowei and Su, Hao},-->
+<!--  year={2023}-->
+<!--}</code></pre>-->
+<!--            <hr>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<footer class="text-center" style="margin-bottom:10px">
+    Thanks to <a href="https://lioryariv.github.io/" target="_blank">Lior Yariv</a> for the website template.
+</footer>
+
+</body>
+<script>
+    datas = null;
+    datas_olat = null;
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+            // const table = document.getElementById('myTable');
+            const table = createTable(data["obj_list"], "myTable", 'obj');
+            // tableContainer.appendChild(table);
+            datas = data;
+        })
+        .catch(error => console.error(error));
+
+    fetch('data_olat.json')
+        .then(response => response.json())
+        .then(data => {
+            // const table = document.getElementById('myTable');
+            const table = createTable(data["obj_list"], "myTable1", 'obj_olat');
+            // tableContainer.appendChild(table);
+            datas_olat = data;
+        })
+        .catch(error => console.error(error));
+
+    function createTable(data, table_id, html_name) {
+        const table = document.getElementById(table_id);
+        // Create table rows
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            const objectId = item['id'];
+            Object.values(item).forEach((value, index) => {
+                if (index === 1) {
+                    const td = document.createElement('td');
+                    const a = document.createElement('a');
+                    a.href = `${html_name}.html?id=` + objectId.toString();
+                    a.textContent = value;
+                    td.appendChild(a);
+                    row.appendChild(td);
+                } else if (index !== 2) {
+                    const td = document.createElement('td');
+                    td.textContent = value;
+                    row.appendChild(td);
+                }
+            });
+            row.addEventListener('mouseover', showPreview);
+            row.addEventListener('mouseout', hidePreview);
+            table.appendChild(row);
+        });
+
+        return table;
+    }
+
+    function showPreview(event) {
+        var previewImage = document.getElementById('preview-image');
+        var currentRow = event.currentTarget;
+        tableId = currentRow.parentNode.id;
+        var rowData = currentRow.innerText.split("\t")[0];
+
+        if (tableId === "myTable") {
+            root = "files/lighting_patterns";
+            lightIndex = "013";
+            filename = "CA2.jpg";
+            width = 100;
+            height = 150;
+            thisdata = datas['obj_list'][rowData - 1];
+        } else {
+            root = "files/OLAT";
+            lightIndex = "000";
+            filename = "A1.jpg"
+            width = 100;
+            height = 136;
+            thisdata = datas_olat['obj_list'][rowData - 1];
+        }
+
+        // Position the popup next to the mouse pointer
+        var rect = currentRow.getBoundingClientRect();
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+        var scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+        // var x = rect.left + scrollLeft;
+        var x = event.clientX;
+        var y = rect.top + scrollTop;
+
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+
+        var thumbnailImage = new Image();
+        thumbnailImage.src = `${root}/${thisdata['data_name']}/Lights/${lightIndex}/origin_smaller_thumbnail/${filename}`;
+        thumbnailImage.onload = function () {
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(thumbnailImage, 0, 0, width, height);
+
+            // Replace the original image with the thumbnail
+            previewImage.src = canvas.toDataURL(); // The thumbnail is in base64 format
+        };
+
+
+        var popup = document.getElementById('popup');
+        popup.style.display = 'block';
+        popup.style.left = (x + 10) + 'px';
+        popup.style.top = (y + 10) + 'px';
+    }
+
+    // Function to hide the popup
+    function hidePreview() {
+        var popup = document.getElementById('popup');
+        popup.style.display = 'none';
+    }
+</script>
+</html>

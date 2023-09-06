@@ -1,0 +1,204 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpenIllumination</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.4.1.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="js/custom.js"></script>
+    <style>
+        body {
+            margin-top: 10px;    /* Adjust the top margin as needed */
+            margin-left: 10px;   /* Adjust the left margin as needed */
+        }
+    </style>
+</head>
+
+<body>
+<h2 id="obj_property">ID: %s Name: %s Material: %s</h2>
+<br>
+<button type="button" class="btn btn-primary" onclick="goBack()">Main page</button>
+<button type="button" class="btn btn-primary" onclick="goToPreviousObject()">Previous object</button>
+<button type="button" class="btn btn-primary" onclick="goToNextObject()">Next object</button>
+<label for="toggleCheckbox">Toggle Camera ID</label>
+<input type="checkbox" id="toggleCheckbox">
+<br>
+<br>
+
+<br>
+Light
+<button id="light001" type="button" class="btn btn-primary" onclick="goToLight('001','lightIdx')">001</button>
+<button id="light002" type="button" class="btn btn-primary" onclick="goToLight('002','lightIdx')">002</button>
+<button id="light003" type="button" class="btn btn-primary" onclick="goToLight('003','lightIdx')">003</button>
+<button id="light004" type="button" class="btn btn-primary" onclick="goToLight('004','lightIdx')">004</button>
+<button id="light005" type="button" class="btn btn-primary" onclick="goToLight('005','lightIdx')">005</button>
+<button id="light006" type="button" class="btn btn-primary" onclick="goToLight('006','lightIdx')">006</button>
+<button id="light007" type="button" class="btn btn-primary" onclick="goToLight('007','lightIdx')">007</button>
+<button id="light008" type="button" class="btn btn-primary" onclick="goToLight('008','lightIdx')">008</button>
+<button id="light009" type="button" class="btn btn-primary" onclick="goToLight('009','lightIdx')">009</button>
+<button id="light010" type="button" class="btn btn-primary" onclick="goToLight('010','lightIdx')">010</button>
+<button id="light011" type="button" class="btn btn-primary" onclick="goToLight('011','lightIdx')">011</button>
+<button id="light012" type="button" class="btn btn-primary" onclick="goToLight('012','lightIdx')">012</button>
+<button id="light013" type="button" class="btn btn-warning" onclick="goToLight('013','lightIdx')">013</button>
+<br><br>
+<br>
+
+Mask Type
+<div id="button_mask_div">
+
+</div>
+
+<br><br>
+<div id="imgdiv"></div>
+</body>
+<script>
+    const objectId = new URLSearchParams(window.location.search).get('id');
+
+    button_mask_div = document.getElementById("button_mask_div");
+
+    if (objectId !== "64") {
+        button_names = ['obj_masked_thumbnail', 'com_masked_thumbnail', 'origin_thumbnail']
+        class_names = ['btn btn-primary', 'btn btn-primary', 'btn btn-warning']
+        innerHTMLs = ['Object mask', 'Combined mask', 'No mask']
+    } else {
+        button_names = ['obj_masked_thumbnail', 'origin_thumbnail']
+        class_names = ['btn btn-primary', 'btn btn-warning']
+        innerHTMLs = ['Object mask', 'No mask']
+    }
+    for (i = 0; i < button_names.length; i++) {
+        button = document.createElement("button");
+        button.id = button_names[i];
+        button.type = "button";
+        button.className = class_names[i];
+        button.innerHTML = innerHTMLs[i];
+        button.onclick = function () {
+            localStorage.setItem("clicked_mask_button_state", this.id);
+            goToMask(this.id);
+        }
+        button_mask_div.appendChild(button);
+    }
+
+
+    maxN = 0
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+            maxN = Object.keys(data['obj_list']).length;
+            updateContent(data);
+        })
+        .catch(error => console.error(error));
+
+
+    function parse(str) {
+        var args = [].slice.call(arguments, 1),
+            i = 0;
+
+        return str.replace(/%s/g, () => args[i++]);
+    }
+
+    function updateContent(data) {
+        obj_list = data['obj_list'];
+        imgid_list = data['imgid_list'];
+        const thisdata = obj_list[objectId - 1]
+        const img_container = document.getElementById('imgdiv');
+        const root = "files/lighting_patterns"
+        imgid_list.forEach(imgid => {
+            const figure_div = document.createElement('div');
+            figure_div.style.display = 'inline-block'
+            figure_div.style.textAlign = 'center';
+            figure_div.style.maxWidth = '8%';
+            figure_div.style.borderBottom = '1px solid #eee';
+
+            const figure = document.createElement('figure');
+            const img = document.createElement('img');
+            img.src = `${root}/${thisdata['data_name']}/Lights/013/origin_thumbnail/${imgid}.jpg`
+            img.style.maxWidth = '100%'
+            figure.appendChild(img);
+
+            const caption = document.createElement('figcaption');
+            caption.id = "figcaption_" + imgid;
+            caption.innerHTML = imgid;
+            caption.style.display = 'none';
+            figure.appendChild(caption);
+
+            figure_div.appendChild(figure);
+
+            img_container.appendChild(figure_div);
+        })
+        const display_name = thisdata["display_name"];
+        const material = thisdata["material"];
+        obj_property = document.getElementById("obj_property");
+        obj_property.innerHTML = `ID: ${objectId} Name: ${display_name} Material: ${material}`;
+
+
+        var toggleCheckbox = document.getElementById("toggleCheckbox");
+        var figcaptions = document.querySelectorAll("figcaption");
+
+
+        var storedCheckboxState = localStorage.getItem("checkboxState");
+        if (storedCheckboxState) {
+            toggleCheckbox.checked = JSON.parse(storedCheckboxState);
+            toggleCameraIDs();
+        }
+
+        toggleCheckbox.addEventListener("change", function () {
+            localStorage.setItem("checkboxState", toggleCheckbox.checked);
+            toggleCameraIDs();
+        });
+
+        function toggleCameraIDs() {
+            figcaptions.forEach(caption => {
+                if (toggleCheckbox.checked) {
+                    caption.style.display = 'block';
+                } else {
+                    caption.style.display = 'none';
+                }
+            });
+        }
+
+        var clicked_mask_button = localStorage.getItem("clicked_mask_button_state");
+        if (clicked_mask_button) {
+            goToMask(clicked_mask_button);
+        }
+
+        var lightIdx = localStorage.getItem("lightIdx");
+        if (lightIdx) {
+            goToLight(lightIdx, "lightIdx");
+        }
+
+    }
+
+    function goToNextObject() {
+        // console.log('maxN', maxN)
+        const currentIndex = parseInt(objectId);
+        if (currentIndex === maxN) {
+            return
+        }
+        const nextIndex = Math.min((currentIndex + 1), maxN); // Calculate the index of the next object
+
+        // Construct the URL with the next object's ID
+        const nextUrl = `obj.html?id=${nextIndex.toString()}`;
+
+        // Navigate to the next URL
+        window.location.href = nextUrl;
+    }
+
+    function goToPreviousObject() {
+        const currentIndex = parseInt(objectId);
+        if (currentIndex === 1) {
+            return
+        }
+        const previousIndex = Math.max(1, (currentIndex - 1)); // Calculate the index of the previous object
+
+        // Construct the URL with the previous object's ID
+        const previousUrl = `obj.html?id=${previousIndex.toString()}`;
+
+        // Navigate to the previous URL
+        window.location.href = previousUrl;
+    }
+
+
+</script>
+</html>
